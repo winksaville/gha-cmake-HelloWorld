@@ -15,11 +15,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install CMake and Ninja
-        run: sudo apt-get install cmake ninja-build
+      - name: Install CMake
+        run: if [ `builtin type -p cmake` ]; then echo cmake already installed; else sudo apt-get install cmake; fi
+
+      - name: Install Ninja
+        run: if [ `builtin type -p ninja` ]; then echo ninja already installed; else sudo apt-get install ninja-build; fi
 
       - name: Configure
-        run: cmake -S .  -B build -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -G Ninja
+        run: cmake -S .  -B build -D CMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }} -G Ninja
 
       - name: Build
         run: cmake --build build
