@@ -1,0 +1,29 @@
+name: CMake Build Test ubuntu-latest
+
+on: [push, pull_request]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    name: Linus
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install CMake and Ninja
+        runs-on: ubuntu-latest
+        run: sudo apt-get install cmake ninja
+
+      - name: Configure
+        run: cmake -S .  -B build -D CMAKE_BUILD_TYPE=$ENV{BUILD_TYPE} -G Ninja
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Run tests
+        run: cd build ; ctest
