@@ -13,7 +13,17 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v2
+      #- uses: actions/checkout@v2
+      - uses: actions/checkout@v1
+
+      - name: Download Ninja and CMake
+        shell: cmake -P {0}
+        run: |
+         message(STATUS "XXX")
+
+         #- name: Start
+         #  shell: cmake -P {0}
+         #  run: message(STATUS "Start")
 
       - name: Install CMake
         run: if [ `builtin type -p cmake` ]; then echo cmake already installed; else sudo apt-get install cmake; fi
