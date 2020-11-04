@@ -1,0 +1,20 @@
+name: test add path
+on: push
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: add-path
+        run: |
+          echo GITHUB_WORKSPACE=$GITHUB_WORKSPACE
+          echo GITHUB_PATH=$GITHUB_PATH
+          mkdir -p $GITHUB_WORKSPACE/bin/workspace
+          echo "echo Hello, world!" > $GITHUB_WORKSPACE/bin/hello-world
+          echo $GITHUB_WORKSPACE/bin >> $GITHUB_PATH
+          chmod +x $GITHUB_WORKSPACE/bin/hello-world
+      - name: Use hello-world
+        run: |
+          echo PATH=$PATH
+          hello-world
